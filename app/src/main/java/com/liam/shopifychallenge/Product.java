@@ -11,6 +11,12 @@ public class Product {
     private String vendor;
     private ProductImage image;
 
+    public Product(long id, String title, String body_html){
+        this.id = id;
+        this.title = title;
+        this.body_html = body_html;
+    }
+
     public long getId() {
         return id;
     }

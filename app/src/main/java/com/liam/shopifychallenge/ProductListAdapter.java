@@ -17,7 +17,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListViewHold
 
     private List<Product> productList;
 
-    public ProductListAdapter(List<Product> productList){
+    public void setProductList(List<Product> productList){
         this.productList = productList;
     }
 
@@ -46,4 +46,5 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListViewHold
     public int getItemCount() {
         return productList.size();
     }
+
 }
