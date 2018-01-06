@@ -3,12 +3,17 @@ package com.liam.shopifychallenge;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Liam on 2018-01-03. This fragment hold the product list view
@@ -29,7 +34,8 @@ public class ProductListFragment extends Fragment{
         productListAdapter = new ProductListAdapter();
         productList = (ProductList) view.findViewById(R.id.product_list_view);
         productList.setAdapter(productListAdapter);
-        displayMockData();
+        //displayMockData();
+        displayTrueData();
         return view;
     }
 
@@ -55,6 +61,34 @@ public class ProductListFragment extends Fragment{
 
         productListAdapter.setProductList(mockList);
         productListAdapter.notifyDataSetChanged();
+
+
+
+    }
+
+    private void displayTrueData(){
+        ShopifyApi mApi = RetrofitManager.getShopifyApi();
+        ProductListResponse mresponse = new ProductListResponse();
+        Call<ProductListResponse> call = mApi.getProductList(1, "c32313df0d0ef512ca64d5b336a0d7c6");
+
+        call.enqueue(new Callback<ProductListResponse>() {
+            @Override
+            public void onResponse(Call<ProductListResponse> call, Response<ProductListResponse> response) {
+                ProductListResponse mResponse = response.body();
+
+                System.out.println("yes " + mResponse.products.size());
+                productListAdapter.setProductList(mResponse.products);
+                productListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<ProductListResponse> call, Throwable t) {
+                System.out.println("no server side error");
+            }
+        });
+
+       // productListAdapter.setProductList(...);
+        //productListAdapter.notifyDataSetChanged();
     }
 
 }

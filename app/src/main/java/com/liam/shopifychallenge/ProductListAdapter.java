@@ -27,7 +27,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListViewHold
         final Product product = productList.get(position);
         final String productTitle = product.getTitle();
         final String productDesc = product.getBody_html();
-        final String imageSrc = product.getImage().getSrc();
+        final String imageSrc;
+        if(product.getImage() != null){
+            imageSrc = product.getImage().getSrc();
+        }
+
 
         viewHolder.productTitle.setText(productTitle);
         viewHolder.productDesc.setText(productDesc);
@@ -44,7 +48,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListViewHold
 
     @Override
     public int getItemCount() {
-        return productList.size();
+        return (productList == null)? 0 : productList.size();
     }
 
 }
