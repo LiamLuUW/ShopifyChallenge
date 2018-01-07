@@ -29,14 +29,14 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListViewHold
         final String productDesc = product.getBody_html();
         final String imageSrc;
         if(product.getImage() != null){
+            ThumbnailManager thumbnailManager = new ThumbnailManager();
             imageSrc = product.getImage().getSrc();
+            thumbnailManager.getThumbnail(imageSrc, viewHolder);
         }
 
 
         viewHolder.productTitle.setText(productTitle);
         viewHolder.productDesc.setText(productDesc);
-        //thumbnail = downloadThumbnail(imageSrc);
-        //viewHolder.productImage.setImageDrawable(thumbnail);
 
     }
 

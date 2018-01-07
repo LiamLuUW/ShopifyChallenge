@@ -35,8 +35,14 @@ public class ProductListFragment extends Fragment{
         productList = (ProductList) view.findViewById(R.id.product_list_view);
         productList.setAdapter(productListAdapter);
         //displayMockData();
-        displayTrueData();
+        //displayTrueData();
         return view;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        displayTrueData();
     }
 
     private void displayMockData(){
@@ -77,6 +83,8 @@ public class ProductListFragment extends Fragment{
                 ProductListResponse mResponse = response.body();
 
                 System.out.println("yes " + mResponse.products.size());
+                //Product temp = mResponse.products.get(0);
+                //Log.i("xxx",temp.getTitle() + " " + temp.getImage().getSrc());
                 productListAdapter.setProductList(mResponse.products);
                 productListAdapter.notifyDataSetChanged();
             }
@@ -87,8 +95,10 @@ public class ProductListFragment extends Fragment{
             }
         });
 
-       // productListAdapter.setProductList(...);
-        //productListAdapter.notifyDataSetChanged();
+    }
+
+    private void getProductThumbnail(){
+
     }
 
 }
