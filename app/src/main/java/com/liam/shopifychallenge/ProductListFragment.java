@@ -20,11 +20,13 @@ import retrofit2.Response;
  */
 
 public class ProductListFragment extends Fragment{
+    private final static String TAG = "ProductListFragment";
     private ProductListAdapter productListAdapter;
     private ProductList productList;
 
     @Override
     public void onCreate(final Bundle savedInstanceState){
+        Log.i(TAG, "ProductListFragment created");
         super.onCreate(savedInstanceState);
     }
 
@@ -34,8 +36,6 @@ public class ProductListFragment extends Fragment{
         productListAdapter = new ProductListAdapter();
         productList = (ProductList) view.findViewById(R.id.product_list_view);
         productList.setAdapter(productListAdapter);
-        //displayMockData();
-        //displayTrueData();
         return view;
     }
 
@@ -73,32 +73,31 @@ public class ProductListFragment extends Fragment{
     }
 
     private void displayTrueData(){
+        Log.i(TAG, "Load products data from server");
         ShopifyApi mApi = RetrofitManager.getShopifyApi();
-        ProductListResponse mresponse = new ProductListResponse();
         Call<ProductListResponse> call = mApi.getProductList(1, "c32313df0d0ef512ca64d5b336a0d7c6");
 
         call.enqueue(new Callback<ProductListResponse>() {
             @Override
             public void onResponse(Call<ProductListResponse> call, Response<ProductListResponse> response) {
                 ProductListResponse mResponse = response.body();
-
-                System.out.println("yes " + mResponse.products.size());
-                //Product temp = mResponse.products.get(0);
-                //Log.i("xxx",temp.getTitle() + " " + temp.getImage().getSrc());
+                if(mResponse == null){
+                    Log.e(TAG, "Error: empty response body received, just ignore");
+                    return;
+                }
+                Log.v(TAG, "Products response received from server with list size of "
+                        + mResponse.products.size());
                 productListAdapter.setProductList(mResponse.products);
                 productListAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<ProductListResponse> call, Throwable t) {
-                System.out.println("no server side error");
+                Log.e(TAG, "Error: Products response onFailure");
             }
         });
 
     }
 
-    private void getProductThumbnail(){
-
-    }
 
 }

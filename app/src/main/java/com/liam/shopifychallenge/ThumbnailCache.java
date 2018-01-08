@@ -19,6 +19,7 @@ public class ThumbnailCache {
 
     public ThumbnailCache(){
         mCache = new LinkedHashMap<>(0,0.75f, true);
+        Log.i(THUMBNAIL_CACHE_TAG, "cache created");
     }
 
     public void put(@NonNull final String key, @NonNull final Bitmap content){
@@ -36,7 +37,7 @@ public class ThumbnailCache {
                 return null;
             }
         }catch (NullPointerException ex){
-            Log.i(THUMBNAIL_CACHE_TAG,"cache does not exist");
+            Log.v(THUMBNAIL_CACHE_TAG,"cache does not exist");
             return null;
         }
 

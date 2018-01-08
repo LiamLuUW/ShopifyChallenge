@@ -14,11 +14,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         RetrofitManager.init();
+        ThumbnailManager.init();
 
         ProductListFragment productListFragment = new ProductListFragment();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, productListFragment);
         ft.commit();
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        ThumbnailManager.clearCache();
     }
 
 

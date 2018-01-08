@@ -16,6 +16,7 @@ import java.util.List;
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListViewHolder> {
 
     private List<Product> productList;
+    //private ThumbnailManager thumbnailManager = new ThumbnailManager();
 
     public void setProductList(List<Product> productList){
         this.productList = productList;
@@ -23,15 +24,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListViewHold
 
     @Override
     public void onBindViewHolder(final ProductListViewHolder viewHolder, int position){
-        final Drawable thumbnail;
         final Product product = productList.get(position);
         final String productTitle = product.getTitle();
         final String productDesc = product.getBody_html();
         final String imageSrc;
         if(product.getImage() != null){
-            ThumbnailManager thumbnailManager = new ThumbnailManager();
             imageSrc = product.getImage().getSrc();
-            thumbnailManager.getThumbnail(imageSrc, viewHolder);
+            ThumbnailManager.getThumbnail(imageSrc, viewHolder);
         }
 
 

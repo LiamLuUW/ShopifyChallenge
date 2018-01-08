@@ -21,46 +21,54 @@ import retrofit2.Response;
 
 public class ThumbnailManager {
 
-    @NonNull
-    final ThumbnailCache thumbnailCache;
+    private final static String TAG = "ThumbnailManager";
 
     @NonNull
-    private HashMap<String, ProductListViewHolder> thumbnailDownloads;
+    private static ThumbnailCache thumbnailCache;
+
+    @NonNull
+    private static HashMap<String, ProductListViewHolder> thumbnailDownloads;
 
     // default image show in list (Before online image download)
-    final int default_image=R.drawable.default_product;
+    public final static int default_image=R.drawable.default_product;
 
 
-    ExecutorService executorService;
-    Handler mHandler;
+    private static ExecutorService executorService;
+    private static Handler mHandler;
 
-    public ThumbnailManager(){
+    private ThumbnailManager(){}
+
+    public static void init(){
+        Log.i(TAG, "Thumbnail manager instance created");
         thumbnailCache = new ThumbnailCache();
         thumbnailDownloads = new HashMap<>();
-        executorService = Executors.newFixedThreadPool(5);
-        mHandler = new Handler();
+        executorService = Executors.newFixedThreadPool(5); // a fixed size thread pool to download images
+        mHandler = new Handler(); // handler for main UI thread
     }
 
-    public void getThumbnail(String url, ProductListViewHolder viewHolder){
+    public static void getThumbnail(String url, ProductListViewHolder viewHolder){
         //store url and viewholder into the queue
         thumbnailDownloads.put(url, viewHolder);
-
         //first we check the thumbnail is in the cache or not
         Bitmap bitmap = thumbnailCache.get(url);
 
         if(bitmap != null){
+            Log.v(TAG, "load thumbnail from cache");
             viewHolder.productImage.setImageBitmap(bitmap);
         }else{
+            Log.v(TAG, "load thumbnail from server");
             executorService.submit(new DownloadRunnable
                     (new Pair<String, ProductListViewHolder>(url, viewHolder)));
         }
     }
 
 
-    class DownloadRunnable implements Runnable {
+    static class DownloadRunnable implements Runnable {
+        private final static String TAG_DOWNLOAD_RUNNABLE = "DownloadRunnable";
         private final Pair<String, ProductListViewHolder> info;
 
         public DownloadRunnable(Pair<String, ProductListViewHolder> info){
+            Log.v(TAG_DOWNLOAD_RUNNABLE, "download image runnable task created");
             this.info = info;
         }
 
@@ -73,11 +81,10 @@ public class ThumbnailManager {
                 thumbnailCache.put(info.first, bitmap);
             }
 
-            BitmapDisplayer bd=new BitmapDisplayer(bitmap, info);
+            DisplayThumbnail bd=new DisplayThumbnail(bitmap, info);
 
-            // Causes the Runnable bd (BitmapDisplayer) to be added to the message queue.
-            // The runnable will be run on the thread to which this handler is attached.
-            // BitmapDisplayer run method will call
+            //notify main thread to post updating the downloaded thumbnail
+            Log.v(TAG_DOWNLOAD_RUNNABLE, "update UI thread for ready thumbnail");
             mHandler.post(bd);
         }
 
@@ -88,34 +95,39 @@ public class ThumbnailManager {
             Bitmap mThumbnail = null;
             //since this is already on a separate thread, no need to enqueue anymore, just execute
             try {
+                Log.v(TAG_DOWNLOAD_RUNNABLE, "Start downloading and decoding thumbnail");
                 response = call.execute();
             } catch (Exception ex) {
-                Log.e("onResponse", "error");
+                Log.e(TAG_DOWNLOAD_RUNNABLE, "Error: onResponse for downloading thumbnail from server");
             }
 
             if(response != null && response.isSuccessful()){
                 try{
                     mThumbnail = BitmapFactory.decodeStream(response.body().byteStream());
                 } catch (Exception ex){
-                   Log.e("onDecode", "error");
+                    Log.e(TAG_DOWNLOAD_RUNNABLE, "Error: onDecode thumbnail");
                     ex.printStackTrace();
                 }
             }
 
+            Log.v(TAG_DOWNLOAD_RUNNABLE, "thumbnail downloaded and decoded successfully");
             return mThumbnail;
         }
     }
 
-    class BitmapDisplayer implements Runnable{
+    static class DisplayThumbnail implements Runnable{
+        private final static String TAG_DISPLAY_THUMBNAIL = "DisplayThumbnail";
         Bitmap bitmap;
         Pair<String, ProductListViewHolder> info;
-        public BitmapDisplayer(Bitmap bitmap, Pair<String, ProductListViewHolder> info){
+        public DisplayThumbnail(Bitmap bitmap, Pair<String, ProductListViewHolder> info){
+            Log.v(TAG_DISPLAY_THUMBNAIL, "display thumbnail task created");
             this.bitmap = bitmap;
             this.info = info;
         }
         public void run()
         {
             // Show bitmap on UI
+            Log.v(TAG_DISPLAY_THUMBNAIL, "displaying thumbnail on main thread");
             if(bitmap!=null) {
                 info.second.productImage.setImageBitmap(bitmap);
             } else {
@@ -124,7 +136,8 @@ public class ThumbnailManager {
         }
     }
 
-    public void clearCache(){
+    public static void clearCache(){
+        Log.v(TAG, "clear all caches");
         thumbnailCache.clear();
     }
 
