@@ -3,6 +3,8 @@ package com.liam.shopifychallenge;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,7 @@ public class ProductListFragment extends Fragment{
     private final static String TAG = "ProductListFragment";
     private ProductListAdapter productListAdapter;
     private ProductList productList;
+    private SwipeRefreshLayout swipeLayout;
 
     @Override
     public void onCreate(final Bundle savedInstanceState){
@@ -33,16 +36,41 @@ public class ProductListFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup viewGroup, @Nullable Bundle savedInstance){
         final View view = inflater.inflate(R.layout.product_list_view, viewGroup, false);
+        swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.product_list_swipe_container);
+
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                displayTrueData();
+            }
+        });
+
         productListAdapter = new ProductListAdapter();
         productList = (ProductList) view.findViewById(R.id.product_list_view);
         productList.setAdapter(productListAdapter);
+        /*productList.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView,
+                                             int newState) {
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView,
+                                   int dx,
+                                   int dy) {
+                swipeLayout.setEnabled(productList.getLinearLayoutManager().findFirstCompletelyVisibleItemPosition()==0);
+            }
+        });*/
+
+
+
         return view;
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        displayTrueData();
+        displayMockData();
     }
 
     private void displayMockData(){
@@ -89,6 +117,7 @@ public class ProductListFragment extends Fragment{
                         + mResponse.products.size());
                 productListAdapter.setProductList(mResponse.products);
                 productListAdapter.notifyDataSetChanged();
+                swipeLayout.setRefreshing(false);
             }
 
             @Override
