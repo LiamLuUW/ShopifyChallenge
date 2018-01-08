@@ -16,7 +16,6 @@ import java.util.List;
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListViewHolder> {
 
     private List<Product> productList;
-    //private ThumbnailManager thumbnailManager = new ThumbnailManager();
 
     public void setProductList(List<Product> productList){
         this.productList = productList;

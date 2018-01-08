@@ -31,7 +31,6 @@ public class RetrofitManager {
     public static void init(){
 
         // add an interceptor to log detail server response
-
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
