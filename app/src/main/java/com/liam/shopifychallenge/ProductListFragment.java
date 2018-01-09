@@ -45,23 +45,9 @@ public class ProductListFragment extends Fragment{
             }
         });
 
-        productListAdapter = new ProductListAdapter();
+        productListAdapter = new ProductListAdapter(getActivity().getApplicationContext());
         productList = (ProductList) view.findViewById(R.id.product_list_view);
         productList.setAdapter(productListAdapter);
-        /*productList.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView,
-                                             int newState) {
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView,
-                                   int dx,
-                                   int dy) {
-                swipeLayout.setEnabled(productList.getLinearLayoutManager().findFirstCompletelyVisibleItemPosition()==0);
-            }
-        });*/
-
 
 
         return view;
@@ -92,6 +78,24 @@ public class ProductListFragment extends Fragment{
 
         Product p6 = new Product(123, "p6", "this is p6");
         mockList.add(p6);
+
+        Product p7 = new Product(123, "p7", "this is p7");
+        mockList.add(p7);
+
+        Product p8 = new Product(123, "p8", "this is p8");
+        mockList.add(p8);
+
+        Product p9 = new Product(123, "p9", "this is p9");
+        mockList.add(p9);
+
+        Product p10 = new Product(123, "p10", "this is p10");
+        mockList.add(p10);
+
+        Product p11 = new Product(123, "p11", "this is p11");
+        mockList.add(p11);
+
+        Product p12 = new Product(123, "p12", "this is p12");
+        mockList.add(p12);
 
         productListAdapter.setProductList(mockList);
         productListAdapter.notifyDataSetChanged();

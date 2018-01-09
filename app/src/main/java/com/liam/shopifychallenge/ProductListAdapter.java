@@ -1,11 +1,14 @@
 package com.liam.shopifychallenge;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -16,6 +19,11 @@ import java.util.List;
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListViewHolder> {
 
     private List<Product> productList;
+    private Context mContext;
+
+    public ProductListAdapter(Context context){
+        mContext = context;
+    }
 
     public void setProductList(List<Product> productList){
         this.productList = productList;
@@ -29,6 +37,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListViewHold
         final String imageSrc;
         if(product.getImage() != null){
             imageSrc = product.getImage().getSrc();
+            //Using Picasso is pretty much the same performance as my own so we will see...
+            //Picasso.with(mContext).load(imageSrc).error(R.drawable.default_product).placeholder(R.drawable.default_product).into(viewHolder.productImage);
             ThumbnailManager.getThumbnail(imageSrc, viewHolder);
         }
 
