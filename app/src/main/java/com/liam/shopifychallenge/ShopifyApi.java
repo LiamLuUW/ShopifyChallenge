@@ -16,15 +16,21 @@ import retrofit2.http.Url;
 public interface ShopifyApi {
 
     /**
-     * get request that calls shopofy api to retrieve a list of products
+     * GET request that calls shopofy api to retrieve a list of products
      */
     @GET("admin/products.json")
     Call<ProductListResponse> getProductList(@Query("page") int page, @Query("access_token") String accessToken);
 
     /**
-     * get request for dynamic url to download image resource
+     * GET request for dynamic url to download image resource
      */
     @GET
     Call<ResponseBody> downloadFileWithDynamicUrlSync(@Url String fileUrl);
+
+    /**
+     * GET request for retrieve a single product details
+     */
+    @GET("admin/products/{product_id}")
+    Call<Product> getProductById(@Path("product_id") String productId);
 
 }

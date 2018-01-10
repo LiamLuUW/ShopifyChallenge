@@ -20,9 +20,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListViewHold
 
     private List<Product> productList;
     private Context mContext;
+    private OnProductClickListener onProductClickListener;
 
-    public ProductListAdapter(Context context){
-        mContext = context;
+    public ProductListAdapter(Context context, OnProductClickListener onProductClickListener){
+        this.mContext = context;
+        this.onProductClickListener = onProductClickListener;
     }
 
     public void setProductList(List<Product> productList){
@@ -51,12 +53,16 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListViewHold
     @Override
     public ProductListViewHolder onCreateViewHolder(ViewGroup viewGroup, int position){
         final View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.product_item_view, viewGroup, false);
-        return new ProductListViewHolder(view);
+        return new ProductListViewHolder(view, onProductClickListener);
     }
 
     @Override
     public int getItemCount() {
         return (productList == null)? 0 : productList.size();
+    }
+
+    public Product getProductByPosition(int pos){
+        return productList.get(pos);
     }
 
 }

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/product_detail_image"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:padding="8dp"
+            android:src="@drawable/default_product" />
+
+        <TextView
+            android:id="@+id/product_detail_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/product_detail_image"
+            android:layout_toEndOf="@id/product_detail_image"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:textSize="28sp"
+            tools:text="title" />
+
+        <TextView
+            android:id="@+id/product_detail_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/product_detail_image"
+            android:layout_toEndOf="@id/product_detail_image"
+            android:paddingBottom="8dp"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:textSize="18sp"
+            tools:text="this is the description part" />
+    </RelativeLayout>
+
+    <Spinner
+        android:id="@+id/product_detail_selection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1">
+
+        <TableRow>
+            <TextView
+                android:text="Vendor:"
+                android:textSize="18sp"
+                android:padding="8dp"/>
+
+            <TextView
+                android:id="@+id/product_detail_vendor"
+                android:textSize="18sp"
+                android:gravity="end"
+                android:padding="8dp"
+                tools:text="vendor A" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Price:"
+                android:textSize="18sp"
+                android:padding="8dp"/>
+
+            <TextView
+                android:id="@+id/product_detail_price"
+                android:textSize="18sp"
+                android:gravity="end"
+                android:padding="8dp"
+                tools:text="Price A" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Weight:"
+                android:textSize="18sp"
+                android:padding="8dp"/>
+
+            <TextView
+                android:id="@+id/product_detail_weight"
+                android:textSize="18sp"
+                android:gravity="end"
+                android:padding="8dp"
+                tools:text="Weight A" />
+            <TextView
+                android:id="@+id/product_detail_weight_unit"
+                android:textSize="18sp"
+                android:gravity="end"
+                android:padding="8dp"
+                tools:text="kg"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Inventory Quantity:"
+                android:textSize="18sp"
+                android:padding="8dp"/>
+
+            <TextView
+                android:id="@+id/product_detail_quantity"
+                android:textSize="18sp"
+                android:gravity="end"
+                android:padding="8dp"
+                tools:text="Quantity A" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Taxable:"
+                android:textSize="18sp"
+                android:padding="8dp"/>
+
+            <TextView
+                android:id="@+id/product_detail_taxable"
+                android:textSize="18sp"
+                android:gravity="end"
+                android:padding="8dp"
+                tools:text="True" />
+        </TableRow>
+    </TableLayout>
+</LinearLayout>

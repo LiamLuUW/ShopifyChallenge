@@ -1,6 +1,8 @@
 package com.liam.shopifychallenge;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +48,7 @@ public class ProductListFragment extends Fragment{
             }
         });
 
-        productListAdapter = new ProductListAdapter(getActivity().getApplicationContext());
+        productListAdapter = new ProductListAdapter(getActivity().getApplicationContext(), createOnProductClickListener());
         productList = (ProductList) view.findViewById(R.id.product_list_view);
         productList.setAdapter(productListAdapter);
 
@@ -56,7 +59,22 @@ public class ProductListFragment extends Fragment{
     @Override
     public void onResume(){
         super.onResume();
-        displayMockData();
+        displayTrueData();
+    }
+
+    private OnProductClickListener createOnProductClickListener(){
+        return new OnProductClickListener() {
+            @Override
+            public void onItemClick(View view, int pos) {
+                Toast toast = Toast.makeText(getActivity(), "open new fragment now", Toast.LENGTH_SHORT);
+                toast.show();
+                Product selectedProduct = productListAdapter.getProductByPosition(pos);
+                ProductDetailFragment detailFragment = ProductDetailFragment.create(selectedProduct);
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container, detailFragment).addToBackStack(null);
+                ft.commit();
+            }
+        };
     }
 
     private void displayMockData(){
@@ -97,6 +115,27 @@ public class ProductListFragment extends Fragment{
         Product p12 = new Product(123, "p12", "this is p12");
         mockList.add(p12);
 
+        Product p13 = new Product(123, "p13", "this is p13");
+        mockList.add(p13);
+
+        Product p14 = new Product(123, "p14", "this is p14");
+        mockList.add(p4);
+
+        Product p15 = new Product(123, "p15", "this is p15");
+        mockList.add(p5);
+
+        Product p16 = new Product(123, "p16", "this is p16");
+        mockList.add(p6);
+
+        Product p17 = new Product(123, "p17", "this is p17");
+        mockList.add(p17);
+
+        Product p18 = new Product(123, "p18", "this is p18");
+        mockList.add(p18);
+
+        Product p19 = new Product(123, "p19", "this is p19");
+        mockList.add(p19);
+
         productListAdapter.setProductList(mockList);
         productListAdapter.notifyDataSetChanged();
 
@@ -131,6 +170,5 @@ public class ProductListFragment extends Fragment{
         });
 
     }
-
 
 }
