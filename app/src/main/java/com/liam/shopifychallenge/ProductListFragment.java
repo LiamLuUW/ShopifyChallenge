@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +54,8 @@ public class ProductListFragment extends Fragment{
         productList = (ProductList) view.findViewById(R.id.product_list_view);
         productList.setAdapter(productListAdapter);
 
+        //disable back button
+        ( (AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         return view;
     }

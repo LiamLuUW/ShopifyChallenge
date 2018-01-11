@@ -62,7 +62,7 @@ public class ProductDetailFragment extends Fragment  {
             mProduct = args.getParcelable(PRODUCT_DATA_KAY);
         }
 
-        ( (AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     @Override
@@ -101,7 +101,8 @@ public class ProductDetailFragment extends Fragment  {
         Bitmap cachedImage = ThumbnailCache.get(mProduct.getImage().getSrc());
         if(cachedImage!= null) image.setImageBitmap(cachedImage);
 
-
+        //enable back button on action bar
+        ( (AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         return view;
     }
