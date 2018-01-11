@@ -2,12 +2,10 @@ package com.liam.shopifychallenge;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 import android.util.Log;
-import android.widget.ImageView;
 
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;

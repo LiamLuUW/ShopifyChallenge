@@ -26,6 +26,7 @@ public class ProductListFragment extends Fragment{
     private boolean needUpdate;
     private ProductListAdapter productListAdapter;
     private ProductList productList;
+    private List<Product> products;
     private SwipeRefreshLayout swipeLayout;
 
     @Override
@@ -33,6 +34,7 @@ public class ProductListFragment extends Fragment{
         Log.i(TAG, "ProductListFragment created");
         super.onCreate(savedInstanceState);
         this.needUpdate = true;
+        products = new ArrayList<>();
     }
 
     @Override
@@ -57,8 +59,14 @@ public class ProductListFragment extends Fragment{
 
     @Override
     public void onResume(){
+
         super.onResume();
-        if(needUpdate) displayTrueData();
+        if(needUpdate || products== null){
+            displayTrueData();
+        }else{
+            productListAdapter.setProductList(products);
+            productListAdapter.notifyDataSetChanged();
+        }
     }
 
     private OnProductClickListener createOnProductClickListener(){
@@ -163,7 +171,8 @@ public class ProductListFragment extends Fragment{
                 }
                 Log.v(TAG, "Products response received from server with list size of "
                         + mResponse.products.size());
-                productListAdapter.setProductList(mResponse.products);
+                products = mResponse.products;
+                productListAdapter.setProductList(products);
                 productListAdapter.notifyDataSetChanged();
                 swipeLayout.setRefreshing(false);
             }
