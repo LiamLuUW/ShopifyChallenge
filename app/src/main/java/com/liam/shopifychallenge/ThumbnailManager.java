@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 import android.util.Log;
+import android.widget.ImageView;
 
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
@@ -42,7 +43,7 @@ public class ThumbnailManager {
 
     public static void init() {
         Log.i(TAG, "Thumbnail manager instance created");
-        thumbnailCache = new ThumbnailCache();
+        thumbnailCache = ThumbnailCache.create();
         thumbnailDownloads = new HashMap<>();
         executorService = Executors.newFixedThreadPool(5); // a fixed size thread pool to download images
         mHandler = new Handler(); // handler for main UI thread

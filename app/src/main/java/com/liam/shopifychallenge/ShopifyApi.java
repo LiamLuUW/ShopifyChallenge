@@ -30,7 +30,7 @@ public interface ShopifyApi {
     /**
      * GET request for retrieve a single product details
      */
-    @GET("admin/products/{product_id}")
-    Call<Product> getProductById(@Path("product_id") String productId);
+    @GET("admin/products/{product_id}.json?")
+    Call<Product> getProductById(@Path("product_id") String productId, @Query("access_token") String accessToken);
 
 }

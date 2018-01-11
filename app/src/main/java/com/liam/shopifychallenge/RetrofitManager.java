@@ -2,16 +2,8 @@ package com.liam.shopifychallenge;
 
 import android.util.Log;
 
-import java.io.IOException;
-import java.util.List;
-
-import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -39,7 +31,7 @@ public class RetrofitManager {
         retrofit = new Retrofit.Builder()
                 .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create())
-                //.client(httpClient.build())
+                .client(httpClient.build())
                 .build();
 
         Log.i(TAG, "retrofit manager instance created");

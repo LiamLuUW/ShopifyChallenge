@@ -1,8 +1,9 @@
 package com.liam.shopifychallenge;
 
 import android.app.Fragment;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,15 +18,18 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+
 /**
  * Created by Liam on 2018-01-08.
  */
 
-public class ProductDetailFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class ProductDetailFragment extends Fragment  {
 
     private final static String TAG = "ProductDetailFragment";
     private final static String PRODUCT_DATA_KAY = "ProductDetailFragment.product";
     private Product mProduct;
+    private static UpdateTaskResultListener taskCompleteListener;
 
     private TextView title;
     private TextView description;
@@ -88,8 +92,11 @@ public class ProductDetailFragment extends Fragment implements AdapterView.OnIte
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item,variantList );
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
-        spinner.setOnItemSelectedListener(this);
+        SpinnerSelectedListener selectedListener = new SpinnerSelectedListener();
+        spinner.setOnItemSelectedListener(selectedListener);
 
+        Bitmap cachedImage = ThumbnailCache.get(mProduct.getImage().getSrc());
+        if(cachedImage!= null) image.setImageBitmap(cachedImage);
 
 
 
@@ -115,47 +122,81 @@ public class ProductDetailFragment extends Fragment implements AdapterView.OnIte
             mProduct = savedInstanceState.getParcelable(PRODUCT_DATA_KAY);
         }
 
+        new UpdateProductDataTask().execute(mProduct);
+
     }
 
-    public void onItemSelected(AdapterView<?> parent, View view,
-                               int pos, long id) {
-        List<ProductVariant> variants = mProduct.getVariants();
-        if(variants != null){
-            ProductVariant variant = variants.get(pos);
-            vendor.setText(mProduct.getVendor());
-            price.setText(String.valueOf(variant.getPrice()));
-            weight.setText(String.valueOf(variant.getWeight()));
-            weightUnit.setText(variant.getWeight_unit());
-            quantity.setText(String.valueOf(variant.getInventory_quantity()));
-            taxable.setText(String.valueOf(variant.isTaxable()));
+    public static void setTaskCompleteListener(UpdateTaskResultListener listener){
+        taskCompleteListener = listener;
+    }
+
+
+    class SpinnerSelectedListener implements AdapterView.OnItemSelectedListener {
+        public void onItemSelected(AdapterView<?> parent, View view,
+                                   int pos, long id) {
+            List<ProductVariant> variants = mProduct.getVariants();
+            if(variants != null){
+                ProductVariant variant = variants.get(pos);
+                vendor.setText(mProduct.getVendor());
+                price.setText(String.valueOf(variant.getPrice()));
+                weight.setText(String.valueOf(variant.getWeight()));
+                weightUnit.setText(variant.getWeight_unit());
+                quantity.setText(String.valueOf(variant.getInventory_quantity()));
+                taxable.setText(String.valueOf(variant.isTaxable()));
+            }
+
         }
 
+        public void onNothingSelected(AdapterView<?> parent) {
+            // Another interface callback
+        }
     }
 
-    public void onNothingSelected(AdapterView<?> parent) {
-        // Another interface callback
+    class UpdateProductDataTask extends AsyncTask<Product, Void, Boolean> {
+
+        private final static String UpdateProductDataTask_TAG = "UpdateProductDataTask";
+        protected Boolean doInBackground(Product... products) {
+        /*first we get the latest product info from the server*/
+            Log.i(UpdateProductDataTask_TAG, "UpdateProductDataTask created");
+            int count = products.length;
+            if(count != 1){
+                Log.e(UpdateProductDataTask_TAG, "input product is more than 1, should not happen");
+            }
+            Product oldProduct = products[0];
+            ShopifyApi mApi = RetrofitManager.getShopifyApi();
+            final Call<Product> mCall = mApi.getProductById(String.valueOf(oldProduct.getId()), "c32313df0d0ef512ca64d5b336a0d7c6");
+            Product updatedProduct = null;
+            try{
+                updatedProduct = mCall.execute().body();
+            }catch (Exception ex){
+                Log.e(UpdateProductDataTask_TAG, "UpdateProductData API request failed");
+                ex.printStackTrace();
+            }
+
+            if(updatedProduct != null){
+                //now we compare the cached product with updatedProduct to see if we need update or not
+                return  oldProduct.equals(updatedProduct);
+            }
+
+            return  false;
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+            //do nothing
+        }
+
+        protected void onPostExecute(Boolean result) {
+            Log.v(UpdateProductDataTask_TAG, "the product need update: " + result);
+            taskCompleteListener.onTaskResultReceived(result);
+        }
+
+
     }
 
 }
 
-/*class DownloadFilesTask extends AsyncTask<URL, Integer, Long> {
-    protected Long doInBackground(URL... urls) {
-        int count = urls.length;
-        long totalSize = 0;
-        for (int i = 0; i < count; i++) {
-            totalSize += Downloader.downloadFile(urls[i]);
-            publishProgress((int) ((i / (float) count) * 100));
-            // Escape early if cancel() is called
-            if (isCancelled()) break;
-        }
-        return totalSize;
-    }
+ interface UpdateTaskResultListener {
+     void onTaskResultReceived(Boolean result);
+}
 
-    protected void onProgressUpdate(Integer... progress) {
-        setProgressPercent(progress[0]);
-    }
 
-    protected void onPostExecute(Long result) {
-        showDialog("Downloaded " + result + " bytes");
-    }
-}*/

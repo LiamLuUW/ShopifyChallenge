@@ -1,17 +1,14 @@
 package com.liam.shopifychallenge;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +23,7 @@ import retrofit2.Response;
 
 public class ProductListFragment extends Fragment{
     private final static String TAG = "ProductListFragment";
+    private boolean needUpdate;
     private ProductListAdapter productListAdapter;
     private ProductList productList;
     private SwipeRefreshLayout swipeLayout;
@@ -34,6 +32,7 @@ public class ProductListFragment extends Fragment{
     public void onCreate(final Bundle savedInstanceState){
         Log.i(TAG, "ProductListFragment created");
         super.onCreate(savedInstanceState);
+        this.needUpdate = true;
     }
 
     @Override
@@ -59,17 +58,23 @@ public class ProductListFragment extends Fragment{
     @Override
     public void onResume(){
         super.onResume();
-        displayTrueData();
+        if(needUpdate) displayTrueData();
     }
 
     private OnProductClickListener createOnProductClickListener(){
         return new OnProductClickListener() {
             @Override
             public void onItemClick(View view, int pos) {
-                Toast toast = Toast.makeText(getActivity(), "open new fragment now", Toast.LENGTH_SHORT);
-                toast.show();
                 Product selectedProduct = productListAdapter.getProductByPosition(pos);
                 ProductDetailFragment detailFragment = ProductDetailFragment.create(selectedProduct);
+                UpdateTaskResultListener taskResultListener = new UpdateTaskResultListener() {
+                    @Override
+                    public void onTaskResultReceived(Boolean result) {
+                        if(result) needUpdate = true;
+                    }
+                };
+                detailFragment.setTaskCompleteListener(taskResultListener);
+                needUpdate = false;
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_container, detailFragment).addToBackStack(null);
                 ft.commit();

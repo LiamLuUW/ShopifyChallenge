@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -87,6 +86,7 @@ public class Product implements Parcelable{
         out.writeString(this.body_html);
         out.writeString(this.vendor);
         out.writeTypedList(this.variants);
+        out.writeParcelable(this.image, flags);
         //no need to pass image data since we don't need it in detail page
     }
 
@@ -97,6 +97,7 @@ public class Product implements Parcelable{
         this.vendor =in.readString();
         this.variants = new ArrayList<ProductVariant>();
         in.readTypedList(variants, ProductVariant.CREATOR);
+        this.image = in.readParcelable(ProductImage.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<Product> CREATOR = new Parcelable.Creator<Product>() {
@@ -110,10 +111,22 @@ public class Product implements Parcelable{
         }
     };
 
+    public boolean equals(Product p2){
+        if (this.id == p2.id && this.title.equals( p2.title) && this.body_html.equals(p2.body_html)
+                && this.vendor.equals(p2.vendor) && this.image.equals(p2.image) ){
+            int pos = 0;
+            for(ProductVariant pv : p2.getVariants()){
+                if(!this.variants.get(pos).equals(pv)) return false;
+                pos++;
+            }
+            return true;
+        }
+            return false;
+    }
 }
 
 
-class ProductImage {
+class ProductImage implements Parcelable {
     private long id;
     private long product_id;
     private String src;
@@ -142,6 +155,38 @@ class ProductImage {
         this.src = src;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flags){
+        out.writeValue(this.id);
+        out.writeValue(this.product_id);
+        out.writeString(this.src);
+    }
+
+    public ProductImage(Parcel in){
+        this.id = (Long) in.readValue(Long.class.getClassLoader());
+        this.product_id = (Long) in.readValue(Long.class.getClassLoader());
+        this.src = in.readString();
+    }
+
+    public static final Parcelable.Creator<ProductImage> CREATOR = new Parcelable.Creator<ProductImage>() {
+
+        public ProductImage createFromParcel(Parcel in) {
+            return new ProductImage(in);
+        }
+
+        public ProductImage[] newArray(int size) {
+            return new ProductImage[size];
+        }
+    };
+
+    public boolean equals(ProductImage pi){
+        return this.id == pi.id && this.src.equals(pi.src) && this.product_id == pi.product_id;
+    }
 }
 
 class ProductVariant implements Parcelable{
@@ -258,4 +303,10 @@ class ProductVariant implements Parcelable{
             return new ProductVariant[size];
         }
     };
+
+    public boolean equals(ProductVariant pv){
+        return this.id == pv.id && this.product_id == pv.product_id && this.title.equals(pv.title)
+                && this.price == pv.price && this.weight == pv.weight && this.weight_unit.equals(pv.weight_unit)
+                && this.inventory_quantity == pv.inventory_quantity && this.taxable == pv.taxable;
+    }
 }
