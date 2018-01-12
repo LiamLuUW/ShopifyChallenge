@@ -8,7 +8,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by Liam on 2018-01-04.
+ * RetrofitManager is a global class handles all the retrofit logic
  */
 
 public class RetrofitManager {

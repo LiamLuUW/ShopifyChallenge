@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 /**
- * Created by Liam on 2018-01-06.
+ * RAM Cache used for storing temporary downloaded thumbnails. Global level.
  */
 
 public class ThumbnailCache {
@@ -27,7 +27,7 @@ public class ThumbnailCache {
     }
 
     public static void put(@NonNull final String key, @NonNull final Bitmap content){
-        if(key != null && content != null) mCache.put(key,content);
+        mCache.put(key,content);
         if(mCache.size() > MAX_CACHE_LIMIT){
             trimCacheSize(10);//resize cache to 10 items
         }

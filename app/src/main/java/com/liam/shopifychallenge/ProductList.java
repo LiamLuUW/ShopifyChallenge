@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 
 
 /**
- * Created by Liam on 2018-01-03.
+ * ProductList is the recyclerView to display a list of products
  */
 
 public class ProductList extends RecyclerView {

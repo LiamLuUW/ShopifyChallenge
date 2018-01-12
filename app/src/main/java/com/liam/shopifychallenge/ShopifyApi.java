@@ -10,7 +10,7 @@ import retrofit2.http.Query;
 import retrofit2.http.Url;
 
 /**
- * Created by Liam on 2018-01-04.
+ * All Shopify APIs for Retrofit
  */
 
 public interface ShopifyApi {

@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +22,12 @@ import java.util.List;
 import retrofit2.Call;
 
 /**
- * Created by Liam on 2018-01-08.
+ * A Fragment on main activity it shows the detail page of selected product.
+ * Logic:
+ *      get parcelable product data from parent fragment and display to user. Then a background task
+ *      will call the API to get this product's latest data again from server. Then it will compare
+ *      the cached and latest product data, if there is a difference, it will notify the parent
+ *      fragment's listener to update the full list upon on return.
  */
 
 public class ProductDetailFragment extends Fragment  {
@@ -84,7 +88,7 @@ public class ProductDetailFragment extends Fragment  {
         description.setText(mProduct.getBody_html());
         // set up spinner content
         List<ProductVariant> variants = mProduct.getVariants();
-        List<String> variantList = new ArrayList<String>();
+        List<String> variantList = new ArrayList<>();
         if(variants == null) {
             // no need to set up the following value.
             return view;
@@ -92,7 +96,7 @@ public class ProductDetailFragment extends Fragment  {
         for(ProductVariant variant : variants){
             variantList.add(variant.getTitle());
         }
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item,variantList );
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item,variantList );
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
         SpinnerSelectedListener selectedListener = new SpinnerSelectedListener();
@@ -135,7 +139,7 @@ public class ProductDetailFragment extends Fragment  {
     }
 
 
-    class SpinnerSelectedListener implements AdapterView.OnItemSelectedListener {
+    private class SpinnerSelectedListener implements AdapterView.OnItemSelectedListener {
         public void onItemSelected(AdapterView<?> parent, View view,
                                    int pos, long id) {
             List<ProductVariant> variants = mProduct.getVariants();
@@ -156,37 +160,30 @@ public class ProductDetailFragment extends Fragment  {
         }
     }
 
-    class UpdateProductDataTask extends AsyncTask<Product, Void, Boolean> {
+    private class UpdateProductDataTask extends AsyncTask<Product, Void, Boolean> {
 
         private final static String UpdateProductDataTask_TAG = "UpdateProductDataTask";
         protected Boolean doInBackground(Product... products) {
         /*first we get the latest product info from the server*/
             Log.i(UpdateProductDataTask_TAG, "UpdateProductDataTask created");
             int count = products.length;
-            if(count != 1){
+            if (count != 1) {
                 Log.e(UpdateProductDataTask_TAG, "input product is more than 1, should not happen");
             }
             Product oldProduct = products[0];
             ShopifyApi mApi = RetrofitManager.getShopifyApi();
             final Call<Product> mCall = mApi.getProductById(String.valueOf(oldProduct.getId()), "c32313df0d0ef512ca64d5b336a0d7c6");
             Product updatedProduct = null;
-            try{
+            try {
                 updatedProduct = mCall.execute().body();
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 Log.e(UpdateProductDataTask_TAG, "UpdateProductData API request failed");
                 ex.printStackTrace();
             }
 
-            if(updatedProduct != null){
-                //now we compare the cached product with updatedProduct to see if we need update or not
-                return  oldProduct.equals(updatedProduct);
-            }
+            //now we compare the cached product with updatedProduct to see if we need update or not
+            return updatedProduct != null && oldProduct.equals(updatedProduct);
 
-            return  false;
-        }
-
-        protected void onProgressUpdate(Integer... progress) {
-            //do nothing
         }
 
         protected void onPostExecute(Boolean result) {

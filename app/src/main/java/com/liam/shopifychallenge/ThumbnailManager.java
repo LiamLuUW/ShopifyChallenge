@@ -3,7 +3,6 @@ package com.liam.shopifychallenge;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 import android.util.Log;
 
@@ -16,21 +15,17 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 /**
- * Created by Liam on 2018-01-06.
+ * Global level class handles all thumbnail logic
  */
 
 public class ThumbnailManager {
 
     private final static String TAG = "ThumbnailManager";
 
-    @NonNull
-    private static ThumbnailCache thumbnailCache;
-
-    @NonNull
     private static HashMap<String, ProductListViewHolder> thumbnailDownloads;
 
     // default image show in list (Before online image download)
-    public final static int default_image = R.drawable.default_product;
+    private final static int default_image = R.drawable.default_product;
 
 
     private static ExecutorService executorService;
@@ -41,7 +36,7 @@ public class ThumbnailManager {
 
     public static void init() {
         Log.i(TAG, "Thumbnail manager instance created");
-        thumbnailCache = ThumbnailCache.create();
+        ThumbnailCache.create();
         thumbnailDownloads = new HashMap<>();
         executorService = Executors.newFixedThreadPool(5); // a fixed size thread pool to download images
         mHandler = new Handler(); // handler for main UI thread
@@ -51,7 +46,7 @@ public class ThumbnailManager {
         //store url and viewholder into the queue
         thumbnailDownloads.put(url, viewHolder);
         //first we check the thumbnail is in the cache or not
-        Bitmap bitmap = thumbnailCache.get(url);
+        Bitmap bitmap = ThumbnailCache.get(url);
 
         if (bitmap != null) {
             Log.v(TAG, "load thumbnail from cache");
@@ -64,7 +59,7 @@ public class ThumbnailManager {
     }
 
 
-    static class DownloadRunnable implements Runnable {
+    private static class DownloadRunnable implements Runnable {
         private final static String TAG_DOWNLOAD_RUNNABLE = "DownloadRunnable";
         private final Pair<String, ProductListViewHolder> info;
 
@@ -79,7 +74,7 @@ public class ThumbnailManager {
 
             if (bitmap != null) {
                 //insert into cache
-                thumbnailCache.put(info.first, bitmap);
+                ThumbnailCache.put(info.first, bitmap);
             }
 
             DisplayThumbnail bd = new DisplayThumbnail(bitmap, info);
@@ -134,7 +129,7 @@ public class ThumbnailManager {
 
     }
 
-    static class DisplayThumbnail implements Runnable {
+    private static class DisplayThumbnail implements Runnable {
         private final static String TAG_DISPLAY_THUMBNAIL = "DisplayThumbnail";
         Bitmap bitmap;
         Pair<String, ProductListViewHolder> info;
@@ -158,7 +153,7 @@ public class ThumbnailManager {
 
     public static void clearCache() {
         Log.v(TAG, "clear all caches");
-        thumbnailCache.clear();
+        ThumbnailCache.clear();
     }
 
 }

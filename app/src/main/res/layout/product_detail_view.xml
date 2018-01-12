@@ -58,7 +58,7 @@
 
         <TableRow>
             <TextView
-                android:text="Vendor:"
+                android:text="@string/product_detail_vendor_title"
                 android:textSize="18sp"
                 android:padding="8dp"/>
 
@@ -72,7 +72,7 @@
 
         <TableRow>
             <TextView
-                android:text="Price:"
+                android:text="@string/product_detail_price_title"
                 android:textSize="18sp"
                 android:padding="8dp"/>
 
@@ -86,7 +86,7 @@
 
         <TableRow>
             <TextView
-                android:text="Weight:"
+                android:text="@string/product_detail_weight_title"
                 android:textSize="18sp"
                 android:padding="8dp"/>
 
@@ -106,7 +106,7 @@
 
         <TableRow>
             <TextView
-                android:text="Inventory Quantity:"
+                android:text="@string/product_detail_inventory_title"
                 android:textSize="18sp"
                 android:padding="8dp"/>
 
@@ -120,7 +120,7 @@
 
         <TableRow>
             <TextView
-                android:text="Taxable:"
+                android:text="@string/product_detail_taxable_title"
                 android:textSize="18sp"
                 android:padding="8dp"/>
 

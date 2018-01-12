@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * Created by Liam on 2018-01-03.
+ * ViewHolder for productList RecyclerView
  */
 
 public class ProductListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

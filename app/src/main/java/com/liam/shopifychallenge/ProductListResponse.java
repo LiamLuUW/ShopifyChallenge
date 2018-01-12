@@ -3,7 +3,7 @@ package com.liam.shopifychallenge;
 import java.util.List;
 
 /**
- * Created by Liam on 2018-01-05.
+ * ProductList API call's response
  */
 
 public class ProductListResponse {

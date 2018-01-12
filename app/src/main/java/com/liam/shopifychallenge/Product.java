@@ -87,7 +87,6 @@ public class Product implements Parcelable{
         out.writeString(this.vendor);
         out.writeTypedList(this.variants);
         out.writeParcelable(this.image, flags);
-        //no need to pass image data since we don't need it in detail page
     }
 
     public Product(Parcel in){
@@ -111,7 +110,7 @@ public class Product implements Parcelable{
         }
     };
 
-    public boolean equals(Product p2){
+     boolean equals(Product p2){
         if (this.id == p2.id && this.title.equals( p2.title) && this.body_html.equals(p2.body_html)
                 && this.vendor.equals(p2.vendor) && this.image.equals(p2.image) ){
             int pos = 0;
@@ -304,7 +303,7 @@ class ProductVariant implements Parcelable{
         }
     };
 
-    public boolean equals(ProductVariant pv){
+    boolean equals(ProductVariant pv){
         return this.id == pv.id && this.product_id == pv.product_id && this.title.equals(pv.title)
                 && this.price == pv.price && this.weight == pv.weight && this.weight_unit.equals(pv.weight_unit)
                 && this.inventory_quantity == pv.inventory_quantity && this.taxable == pv.taxable;

@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">ShopifyChallenge</string>
+
+    <!--Product Detail Fragment-->
+    <string name="product_detail_vendor_title">Vendor:</string>
+    <string name="product_detail_price_title">Price:</string>
+    <string name="product_detail_weight_title">Weight:</string>
+    <string name="product_detail_inventory_title">Inventory Quantity:</string>
+    <string name="product_detail_taxable_title">Taxable:</string>
+
+    <!--Product List Fragment-->
+    <string name="product_list_no_product">No Product Available</string>
+
 </resources>

@@ -9,21 +9,19 @@ import android.view.ViewGroup;
 import java.util.List;
 
 /**
- * Created by Liam on 2018-01-03.
+ * Productlist Adapter for the productlist recyclerView
  */
 
-public class ProductListAdapter extends RecyclerView.Adapter<ProductListViewHolder> {
+class ProductListAdapter extends RecyclerView.Adapter<ProductListViewHolder> {
 
     private List<Product> productList;
-    private Context mContext;
     private OnProductClickListener onProductClickListener;
 
-    public ProductListAdapter(Context context, OnProductClickListener onProductClickListener){
-        this.mContext = context;
+    ProductListAdapter(OnProductClickListener onProductClickListener){
         this.onProductClickListener = onProductClickListener;
     }
 
-    public void setProductList(List<Product> productList){
+    void setProductList(List<Product> productList){
         this.productList = productList;
     }
 
@@ -57,7 +55,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListViewHold
         return (productList == null)? 0 : productList.size();
     }
 
-    public Product getProductByPosition(int pos){
+    Product getProductByPosition(int pos){
         return productList.get(pos);
     }
 

@@ -3,6 +3,7 @@ package com.liam.shopifychallenge;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -50,7 +51,7 @@ public class ProductListFragment extends Fragment{
             }
         });
 
-        productListAdapter = new ProductListAdapter(getActivity().getApplicationContext(), createOnProductClickListener());
+        productListAdapter = new ProductListAdapter(createOnProductClickListener());
         productList = (ProductList) view.findViewById(R.id.product_list_view);
         productList.setAdapter(productListAdapter);
 
@@ -84,79 +85,13 @@ public class ProductListFragment extends Fragment{
                         if(result) needUpdate = true;
                     }
                 };
-                detailFragment.setTaskCompleteListener(taskResultListener);
+                ProductDetailFragment.setTaskCompleteListener(taskResultListener);
                 needUpdate = false;
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_container, detailFragment).addToBackStack(null);
                 ft.commit();
             }
         };
-    }
-
-    private void displayMockData(){
-        List<Product> mockList = new ArrayList<>();
-        Product p1 = new Product(123, "p1", "this is p1");
-        mockList.add(p1);
-
-        Product p2 = new Product(123, "p2", "this is p2");
-        mockList.add(p2);
-
-        Product p3 = new Product(123, "p3", "this is p3");
-        mockList.add(p3);
-
-        Product p4 = new Product(123, "p4", "this is p4");
-        mockList.add(p4);
-
-        Product p5 = new Product(123, "p5", "this is p5");
-        mockList.add(p5);
-
-        Product p6 = new Product(123, "p6", "this is p6");
-        mockList.add(p6);
-
-        Product p7 = new Product(123, "p7", "this is p7");
-        mockList.add(p7);
-
-        Product p8 = new Product(123, "p8", "this is p8");
-        mockList.add(p8);
-
-        Product p9 = new Product(123, "p9", "this is p9");
-        mockList.add(p9);
-
-        Product p10 = new Product(123, "p10", "this is p10");
-        mockList.add(p10);
-
-        Product p11 = new Product(123, "p11", "this is p11");
-        mockList.add(p11);
-
-        Product p12 = new Product(123, "p12", "this is p12");
-        mockList.add(p12);
-
-        Product p13 = new Product(123, "p13", "this is p13");
-        mockList.add(p13);
-
-        Product p14 = new Product(123, "p14", "this is p14");
-        mockList.add(p4);
-
-        Product p15 = new Product(123, "p15", "this is p15");
-        mockList.add(p5);
-
-        Product p16 = new Product(123, "p16", "this is p16");
-        mockList.add(p6);
-
-        Product p17 = new Product(123, "p17", "this is p17");
-        mockList.add(p17);
-
-        Product p18 = new Product(123, "p18", "this is p18");
-        mockList.add(p18);
-
-        Product p19 = new Product(123, "p19", "this is p19");
-        mockList.add(p19);
-
-        productListAdapter.setProductList(mockList);
-        productListAdapter.notifyDataSetChanged();
-
-
-
     }
 
     private void displayTrueData(){
@@ -166,7 +101,7 @@ public class ProductListFragment extends Fragment{
 
         call.enqueue(new Callback<ProductListResponse>() {
             @Override
-            public void onResponse(Call<ProductListResponse> call, Response<ProductListResponse> response) {
+            public void onResponse(@NonNull Call<ProductListResponse> call, @NonNull Response<ProductListResponse> response) {
                 ProductListResponse mResponse = response.body();
                 if(mResponse == null){
                     Log.e(TAG, "Error: empty response body received, just ignore");
@@ -181,7 +116,7 @@ public class ProductListFragment extends Fragment{
             }
 
             @Override
-            public void onFailure(Call<ProductListResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<ProductListResponse> call, @NonNull Throwable t) {
                 Log.e(TAG, "Error: Products response onFailure");
             }
         });
