@@ -25,7 +25,7 @@ public interface ShopifyApi {
      * GET request for dynamic url to download image resource
      */
     @GET
-    Call<ResponseBody> downloadFileWithDynamicUrlSync(@Url String fileUrl);
+    Call<ResponseBody> downloadImageFromUrl(@Url String fileUrl);
 
     /**
      * GET request for retrieve a single product details

@@ -88,7 +88,7 @@ public class ThumbnailManager {
 
         private Bitmap downloadThumbnail(String url) {
             ShopifyApi mApi = RetrofitManager.getShopifyApi();
-            Call<ResponseBody> call = mApi.downloadFileWithDynamicUrlSync(url);
+            Call<ResponseBody> call = mApi.downloadImageFromUrl(url);
             Response<ResponseBody> response = null;
             Bitmap mThumbnail = null;
             //since this is already on a separate thread, no need to enqueue anymore, just execute
