@@ -25,6 +25,7 @@ import retrofit2.Response;
 
 public class ProductListFragment extends Fragment{
     private final static String TAG = "ProductListFragment";
+    private final static int REQUEST_PAGE_NUMBER = 1;
     private boolean needUpdate;
     private ProductListAdapter productListAdapter;
     private ProductList productList;
@@ -40,7 +41,8 @@ public class ProductListFragment extends Fragment{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup viewGroup, @Nullable Bundle savedInstance){
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup viewGroup,
+                             @Nullable Bundle savedInstance){
         final View view = inflater.inflate(R.layout.product_list_view, viewGroup, false);
         swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.product_list_swipe_container);
 
@@ -97,11 +99,13 @@ public class ProductListFragment extends Fragment{
     private void displayTrueData(){
         Log.i(TAG, "Load products data from server");
         ShopifyApi mApi = RetrofitManager.getShopifyApi();
-        Call<ProductListResponse> call = mApi.getProductList(1, "c32313df0d0ef512ca64d5b336a0d7c6");
+        Call<ProductListResponse> call = mApi.getProductList(REQUEST_PAGE_NUMBER,
+                getResources().getString(R.string.shopify_access_token));
 
         call.enqueue(new Callback<ProductListResponse>() {
             @Override
-            public void onResponse(@NonNull Call<ProductListResponse> call, @NonNull Response<ProductListResponse> response) {
+            public void onResponse(@NonNull Call<ProductListResponse> call,
+                                   @NonNull Response<ProductListResponse> response) {
                 ProductListResponse mResponse = response.body();
                 if(mResponse == null){
                     Log.e(TAG, "Error: empty response body received, just ignore");

@@ -14,6 +14,7 @@ import java.util.LinkedHashMap;
 public class ThumbnailCache {
     private static final String THUMBNAIL_CACHE_TAG = "ThumbnailCache";
     private static final int MAX_CACHE_LIMIT = 100; //limit for number of items in cache
+    private static final int MIN_CACHE_LIMIT = 10;
 
     private static LinkedHashMap<String, Bitmap> mCache;
 
@@ -29,7 +30,7 @@ public class ThumbnailCache {
     public static void put(@NonNull final String key, @NonNull final Bitmap content){
         mCache.put(key,content);
         if(mCache.size() > MAX_CACHE_LIMIT){
-            trimCacheSize(10);//resize cache to 10 items
+            trimCacheSize(MIN_CACHE_LIMIT);//resize cache to 10 items
         }
     }
 

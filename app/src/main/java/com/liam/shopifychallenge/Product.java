@@ -184,7 +184,9 @@ class ProductImage implements Parcelable {
     };
 
     public boolean equals(ProductImage pi){
-        return this.id == pi.id && this.src.equals(pi.src) && this.product_id == pi.product_id;
+        return this.id == pi.id
+                && this.src.equals(pi.src)
+                && this.product_id == pi.product_id;
     }
 }
 
@@ -292,7 +294,8 @@ class ProductVariant implements Parcelable{
 
     }
 
-    public static final Parcelable.Creator<ProductVariant> CREATOR = new Parcelable.Creator<ProductVariant>() {
+    public static final Parcelable.Creator<ProductVariant> CREATOR =
+            new Parcelable.Creator<ProductVariant>() {
 
         public ProductVariant createFromParcel(Parcel in) {
             return new ProductVariant(in);
@@ -304,8 +307,13 @@ class ProductVariant implements Parcelable{
     };
 
     boolean equals(ProductVariant pv){
-        return this.id == pv.id && this.product_id == pv.product_id && this.title.equals(pv.title)
-                && this.price == pv.price && this.weight == pv.weight && this.weight_unit.equals(pv.weight_unit)
-                && this.inventory_quantity == pv.inventory_quantity && this.taxable == pv.taxable;
+        return this.id == pv.id
+                && this.product_id == pv.product_id
+                && this.title.equals(pv.title)
+                && this.price == pv.price
+                && this.weight == pv.weight
+                && this.weight_unit.equals(pv.weight_unit)
+                && this.inventory_quantity == pv.inventory_quantity
+                && this.taxable == pv.taxable;
     }
 }

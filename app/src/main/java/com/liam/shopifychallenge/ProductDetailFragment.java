@@ -96,7 +96,8 @@ public class ProductDetailFragment extends Fragment  {
         for(ProductVariant variant : variants){
             variantList.add(variant.getTitle());
         }
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item,variantList );
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_spinner_item,variantList );
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
         SpinnerSelectedListener selectedListener = new SpinnerSelectedListener();
@@ -172,7 +173,8 @@ public class ProductDetailFragment extends Fragment  {
             }
             Product oldProduct = products[0];
             ShopifyApi mApi = RetrofitManager.getShopifyApi();
-            final Call<Product> mCall = mApi.getProductById(String.valueOf(oldProduct.getId()), "c32313df0d0ef512ca64d5b336a0d7c6");
+            final Call<Product> mCall = mApi.getProductById(String.valueOf(oldProduct.getId()),
+                    getResources().getString(R.string.shopify_access_token));
             Product updatedProduct = null;
             try {
                 updatedProduct = mCall.execute().body();

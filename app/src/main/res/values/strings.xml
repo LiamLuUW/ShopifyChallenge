@@ -10,5 +10,6 @@
 
     <!--Product List Fragment-->
     <string name="product_list_no_product">No Product Available</string>
+    <string name="shopify_access_token">c32313df0d0ef512ca64d5b336a0d7c6</string>
 
 </resources>

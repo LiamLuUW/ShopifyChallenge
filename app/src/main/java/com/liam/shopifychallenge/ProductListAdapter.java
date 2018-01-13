@@ -34,7 +34,8 @@ class ProductListAdapter extends RecyclerView.Adapter<ProductListViewHolder> {
         if(product.getImage() != null){
             imageSrc = product.getImage().getSrc();
             //Using Picasso is pretty much the same performance as my own so we will see...
-            //Picasso.with(mContext).load(imageSrc).error(R.drawable.default_product).placeholder(R.drawable.default_product).into(viewHolder.productImage);
+            //Picasso.with(mContext).load(imageSrc).error(R.drawable.default_product)
+            // .placeholder(R.drawable.default_product).into(viewHolder.productImage);
             ThumbnailManager.getThumbnail(imageSrc, viewHolder);
         }
 
@@ -46,7 +47,8 @@ class ProductListAdapter extends RecyclerView.Adapter<ProductListViewHolder> {
 
     @Override
     public ProductListViewHolder onCreateViewHolder(ViewGroup viewGroup, int position){
-        final View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.product_item_view, viewGroup, false);
+        final View view = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.product_item_view, viewGroup, false);
         return new ProductListViewHolder(view, onProductClickListener);
     }
 

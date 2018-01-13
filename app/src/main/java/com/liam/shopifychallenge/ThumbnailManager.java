@@ -21,6 +21,7 @@ import retrofit2.Response;
 public class ThumbnailManager {
 
     private final static String TAG = "ThumbnailManager";
+    private final static int MAC_THREAD_CAP = 5;
 
     private static HashMap<String, ProductListViewHolder> thumbnailDownloads;
 
@@ -38,7 +39,8 @@ public class ThumbnailManager {
         Log.i(TAG, "Thumbnail manager instance created");
         ThumbnailCache.create();
         thumbnailDownloads = new HashMap<>();
-        executorService = Executors.newFixedThreadPool(5); // a fixed size thread pool to download images
+        // a fixed size thread pool to download images
+        executorService = Executors.newFixedThreadPool(MAC_THREAD_CAP);
         mHandler = new Handler(); // handler for main UI thread
     }
 
