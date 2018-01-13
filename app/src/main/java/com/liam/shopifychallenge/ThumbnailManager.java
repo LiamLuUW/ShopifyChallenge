@@ -23,8 +23,6 @@ public class ThumbnailManager {
     private final static String TAG = "ThumbnailManager";
     private final static int MAC_THREAD_CAP = 5;
 
-    private static HashMap<String, ProductListViewHolder> thumbnailDownloads;
-
     // default image show in list (Before online image download)
     private final static int default_image = R.drawable.default_product;
 
@@ -38,15 +36,12 @@ public class ThumbnailManager {
     public static void init() {
         Log.i(TAG, "Thumbnail manager instance created");
         ThumbnailCache.create();
-        thumbnailDownloads = new HashMap<>();
         // a fixed size thread pool to download images
         executorService = Executors.newFixedThreadPool(MAC_THREAD_CAP);
         mHandler = new Handler(); // handler for main UI thread
     }
 
     public static void getThumbnail(String url, ProductListViewHolder viewHolder) {
-        //store url and viewholder into the queue
-        thumbnailDownloads.put(url, viewHolder);
         //first we check the thumbnail is in the cache or not
         Bitmap bitmap = ThumbnailCache.get(url);
 
