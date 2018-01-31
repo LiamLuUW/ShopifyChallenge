@@ -22,7 +22,7 @@
         android:layout_toEndOf="@id/product_image"
         tools:text="title"
         android:textStyle="bold"
-        android:textSize="22sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/product_description"
@@ -33,7 +33,7 @@
         android:layout_marginTop="8dp"
         android:layout_toEndOf="@id/product_image"
         tools:text="this is the description of the product"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
 
 
 </RelativeLayout>
