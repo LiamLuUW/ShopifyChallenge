@@ -16,6 +16,7 @@ public class Product implements Parcelable{
     private String body_html;
     private String vendor;
     private List<ProductVariant> variants;
+    private String tags;
     private ProductImage image;
 
     public Product(long id, String title, String body_html){
@@ -74,6 +75,14 @@ public class Product implements Parcelable{
         this.image = image;
     }
 
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -87,6 +96,7 @@ public class Product implements Parcelable{
         out.writeString(this.vendor);
         out.writeTypedList(this.variants);
         out.writeParcelable(this.image, flags);
+        out.writeString(this.tags);
     }
 
     public Product(Parcel in){
@@ -97,6 +107,7 @@ public class Product implements Parcelable{
         this.variants = new ArrayList<ProductVariant>();
         in.readTypedList(variants, ProductVariant.CREATOR);
         this.image = in.readParcelable(ProductImage.class.getClassLoader());
+        this.tags = in.readString();
     }
 
     public static final Parcelable.Creator<Product> CREATOR = new Parcelable.Creator<Product>() {

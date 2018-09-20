@@ -49,7 +49,7 @@ public class ProductDetailFragment extends Fragment  {
     private TextView taxable;
 
 
-    public static ProductDetailFragment create(Product product) {
+    public static ProductDetailFragment newInstance(Product product) {
         final Bundle args = new Bundle();
         args.putParcelable(PRODUCT_DATA_KAY, product);
         final ProductDetailFragment productDetailFragment = new ProductDetailFragment();
@@ -73,16 +73,16 @@ public class ProductDetailFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance){
         final View view = inflater.inflate(R.layout.product_detail_view, container, false);
 
-        title = (TextView) view.findViewById(R.id.product_detail_title);
-        description = (TextView) view.findViewById(R.id.product_detail_description);
-        image = (ImageView) view.findViewById(R.id.product_detail_image);
-        spinner = (Spinner) view.findViewById(R.id.product_detail_selection);
-        vendor = (TextView) view.findViewById(R.id.product_detail_vendor);
-        price = (TextView) view.findViewById(R.id.product_detail_price);
-        weight = (TextView) view.findViewById(R.id.product_detail_weight);
-        weightUnit = (TextView) view.findViewById(R.id.product_detail_weight_unit);
-        quantity = (TextView) view.findViewById(R.id.product_detail_quantity);
-        taxable = (TextView) view.findViewById(R.id.product_detail_taxable);
+        title = view.findViewById(R.id.product_detail_title);
+        description = view.findViewById(R.id.product_detail_description);
+        image = view.findViewById(R.id.product_detail_image);
+        spinner = view.findViewById(R.id.product_detail_selection);
+        vendor = view.findViewById(R.id.product_detail_vendor);
+        price = view.findViewById(R.id.product_detail_price);
+        weight = view.findViewById(R.id.product_detail_weight);
+        weightUnit = view.findViewById(R.id.product_detail_weight_unit);
+        quantity = view.findViewById(R.id.product_detail_quantity);
+        taxable = view.findViewById(R.id.product_detail_taxable);
 
         title.setText(mProduct.getTitle());
         description.setText(mProduct.getBody_html());
@@ -107,7 +107,7 @@ public class ProductDetailFragment extends Fragment  {
         if(cachedImage!= null) image.setImageBitmap(cachedImage);
 
         //enable back button on action bar
-        ( (AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       // ( (AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         return view;
     }

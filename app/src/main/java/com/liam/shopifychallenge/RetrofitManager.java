@@ -48,7 +48,7 @@ public class RetrofitManager {
             return shopifyApi;
         }else{
             //error case
-            Log.i(TAG, "Shopify API instance create error");
+            Log.i(TAG, "Shopify API instance newInstance error");
             return null;
         }
     }

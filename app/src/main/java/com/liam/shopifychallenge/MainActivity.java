@@ -16,9 +16,9 @@ public class MainActivity extends AppCompatActivity {
         RetrofitManager.init();
         ThumbnailManager.init();
 
-        ProductListFragment productListFragment = new ProductListFragment();
+        TagListFragment tagListFragment = new TagListFragment();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, productListFragment);
+        ft.replace(R.id.fragment_container, tagListFragment);
         ft.commit();
     }
 
