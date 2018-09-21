@@ -3,7 +3,7 @@ package com.liam.shopifychallenge;
 import android.view.View;
 
 /**
- * Created by Liam on 2018-01-08.
+ * Listener for click on product
  */
 
 public interface OnProductClickListener {

@@ -20,7 +20,7 @@ import retrofit2.Response;
 
 public class ThumbnailManager {
 
-    private final static String TAG = "ThumbnailManager";
+    private final static String TAG = ThumbnailManager.class.getSimpleName();
     private final static int MAC_THREAD_CAP = 5;
 
     // default image show in list (Before online image download)

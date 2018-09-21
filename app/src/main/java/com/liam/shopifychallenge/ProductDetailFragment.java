@@ -32,7 +32,7 @@ import retrofit2.Call;
 
 public class ProductDetailFragment extends Fragment  {
 
-    private final static String TAG = "ProductDetailFragment";
+    private final static String TAG = ProductDetailFragment.class.getSimpleName();
     private final static String PRODUCT_DATA_KAY = "ProductDetailFragment.product";
     private Product mProduct;
     private static UpdateTaskResultListener taskCompleteListener;
@@ -59,7 +59,7 @@ public class ProductDetailFragment extends Fragment  {
 
     @Override
     public void onCreate(Bundle savedInstance){
-        Log.i(TAG, "ProductDetailFragment created");
+        Log.v(TAG, "ProductDetailFragment created");
         super.onCreate(savedInstance);
         final Bundle args = getArguments();
         if(args != null) {
@@ -105,9 +105,6 @@ public class ProductDetailFragment extends Fragment  {
 
         Bitmap cachedImage = ThumbnailCache.get(mProduct.getImage().getSrc());
         if(cachedImage!= null) image.setImageBitmap(cachedImage);
-
-        //enable back button on action bar
-       // ( (AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         return view;
     }
@@ -166,15 +163,14 @@ public class ProductDetailFragment extends Fragment  {
         private final static String UpdateProductDataTask_TAG = "UpdateProductDataTask";
         protected Boolean doInBackground(Product... products) {
         /*first we get the latest product info from the server*/
-            Log.i(UpdateProductDataTask_TAG, "UpdateProductDataTask created");
+            Log.v(UpdateProductDataTask_TAG, "UpdateProductDataTask created");
             int count = products.length;
             if (count != 1) {
                 Log.e(UpdateProductDataTask_TAG, "input product is more than 1, should not happen");
             }
             Product oldProduct = products[0];
             ShopifyApi mApi = RetrofitManager.getShopifyApi();
-            final Call<Product> mCall = mApi.getProductById(String.valueOf(oldProduct.getId()),
-                    getResources().getString(R.string.shopify_access_token));
+            final Call<Product> mCall = mApi.getProductById(String.valueOf(oldProduct.getId()));
             Product updatedProduct = null;
             try {
                 updatedProduct = mCall.execute().body();

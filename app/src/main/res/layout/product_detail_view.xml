@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/product_detail_image"
             android:layout_toEndOf="@id/product_detail_image"
+            android:layout_marginTop="8dp"
             android:paddingBottom="8dp"
             android:paddingEnd="8dp"
             android:paddingStart="8dp"

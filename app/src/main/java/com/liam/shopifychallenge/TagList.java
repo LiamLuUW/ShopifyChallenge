@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
 /**
- * Created by Liam on 2018-09-20.
+ * Tag List RecyclerView
  */
 
 public class TagList extends RecyclerView {

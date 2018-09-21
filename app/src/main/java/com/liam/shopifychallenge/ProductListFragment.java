@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,7 @@ import java.util.List;
 
 
 /**
- * Created by Liam on 2018-01-03. This fragment hold the product list view
+ * This fragment hold the product list view
  */
 
 public class ProductListFragment extends Fragment {
@@ -35,7 +36,7 @@ public class ProductListFragment extends Fragment {
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
-        Log.i(TAG, "ProductListFragment created");
+        Log.v(TAG, "ProductListFragment created");
         super.onCreate(savedInstanceState);
         products = getArguments().getParcelableArrayList(TAG);
     }
@@ -52,10 +53,8 @@ public class ProductListFragment extends Fragment {
             productListAdapter.setProductList(products);
             productListAdapter.notifyDataSetChanged();
         }
-
-        //disable back button
-        // ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-
+        //enable back button
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         return view;
     }
 
@@ -73,6 +72,7 @@ public class ProductListFragment extends Fragment {
                         result -> taskCompleteListener.onTaskResultReceived(result);
                 ProductDetailFragment.setTaskCompleteListener(taskResultListener);
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.setCustomAnimations(R.animator.fragment_slide_in, R.animator.fragment_slide_out);
                 ft.replace(R.id.fragment_container, detailFragment).addToBackStack(null);
                 ft.commit();
             }

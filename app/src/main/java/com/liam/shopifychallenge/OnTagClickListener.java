@@ -1,7 +1,7 @@
 package com.liam.shopifychallenge;
 
 /**
- * Created by Liam on 2018-09-20.
+ * Listener for tag button clicked
  */
 
 public interface OnTagClickListener {

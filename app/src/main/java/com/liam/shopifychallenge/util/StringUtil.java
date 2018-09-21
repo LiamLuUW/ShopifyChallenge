@@ -2,7 +2,7 @@ package com.liam.shopifychallenge.util;
 
 
 /**
- * Created by Liam on 2018-09-20.
+ * String utility
  */
 
 public class StringUtil {

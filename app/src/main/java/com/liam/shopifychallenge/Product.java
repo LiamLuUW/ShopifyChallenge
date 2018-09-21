@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Liam on 2018-01-03. Product Object
+ *  Product Object
  */
 
 public class Product implements Parcelable{
@@ -133,6 +133,15 @@ public class Product implements Parcelable{
         }
             return false;
     }
+
+
+    public int getTotalQuantity(){
+         int totalQuantity = 0;
+        for(ProductVariant variant : variants){
+            totalQuantity += variant.getInventory_quantity();
+        }
+        return totalQuantity;
+    }
 }
 
 
@@ -199,6 +208,7 @@ class ProductImage implements Parcelable {
                 && this.src.equals(pi.src)
                 && this.product_id == pi.product_id;
     }
+
 }
 
 class ProductVariant implements Parcelable{

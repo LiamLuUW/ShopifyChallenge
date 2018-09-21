@@ -19,7 +19,7 @@ public interface ShopifyApi {
      * GET request that calls shopofy api to retrieve a list of products
      */
     @GET("admin/products.json")
-    Call<ProductListResponse> getProductList(@Query("page") int page, @Query("access_token") String accessToken);
+    Call<ProductListResponse> getProductList(@Query("page") int page);
 
     /**
      * GET request for dynamic url to download image resource
@@ -31,6 +31,6 @@ public interface ShopifyApi {
      * GET request for retrieve a single product details
      */
     @GET("admin/products/{product_id}.json?")
-    Call<Product> getProductById(@Path("product_id") String productId, @Query("access_token") String accessToken);
+    Call<Product> getProductById(@Path("product_id") String productId);
 
 }
