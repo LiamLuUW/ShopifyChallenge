@@ -22,9 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/product_detail_image"
             android:layout_toEndOf="@id/product_detail_image"
-            android:paddingEnd="8dp"
-            android:paddingStart="8dp"
-            android:paddingTop="8dp"
+            android:layout_margin="8dp"
             android:textSize="24sp"
             tools:text="title" />
 
@@ -32,12 +30,10 @@
             android:id="@+id/product_detail_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/product_detail_image"
+            android:layout_below="@id/product_detail_title"
             android:layout_toEndOf="@id/product_detail_image"
-            android:layout_marginTop="8dp"
-            android:paddingBottom="8dp"
-            android:paddingEnd="8dp"
-            android:paddingStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:textSize="18sp"
             tools:text="this is the description part" />
     </RelativeLayout>
@@ -61,13 +57,13 @@
             <TextView
                 android:text="@string/product_detail_vendor_title"
                 android:textSize="18sp"
-                android:padding="8dp"/>
+                android:layout_marginStart="8dp" />
 
             <TextView
                 android:id="@+id/product_detail_vendor"
                 android:textSize="18sp"
                 android:gravity="end"
-                android:padding="8dp"
+                android:layout_marginEnd="8dp"
                 tools:text="vendor A" />
         </TableRow>
 
@@ -75,13 +71,13 @@
             <TextView
                 android:text="@string/product_detail_price_title"
                 android:textSize="18sp"
-                android:padding="8dp"/>
+                android:layout_marginStart="8dp"/>
 
             <TextView
                 android:id="@+id/product_detail_price"
                 android:textSize="18sp"
                 android:gravity="end"
-                android:padding="8dp"
+                android:layout_marginEnd="8dp"
                 tools:text="Price A" />
         </TableRow>
 
@@ -89,19 +85,19 @@
             <TextView
                 android:text="@string/product_detail_weight_title"
                 android:textSize="18sp"
-                android:padding="8dp"/>
+                android:layout_marginStart="8dp"/>
 
             <TextView
                 android:id="@+id/product_detail_weight"
                 android:textSize="18sp"
                 android:gravity="end"
-                android:padding="8dp"
+                android:layout_marginEnd="4dp"
                 tools:text="Weight A" />
             <TextView
                 android:id="@+id/product_detail_weight_unit"
                 android:textSize="18sp"
                 android:gravity="end"
-                android:padding="8dp"
+                android:layout_marginEnd="8dp"
                 tools:text="kg"/>
         </TableRow>
 
@@ -109,13 +105,13 @@
             <TextView
                 android:text="@string/product_detail_inventory_title"
                 android:textSize="18sp"
-                android:padding="8dp"/>
+                android:layout_marginStart="8dp"/>
 
             <TextView
                 android:id="@+id/product_detail_quantity"
                 android:textSize="18sp"
                 android:gravity="end"
-                android:padding="8dp"
+                android:layout_marginEnd="8dp"
                 tools:text="Quantity A" />
         </TableRow>
 
@@ -123,13 +119,13 @@
             <TextView
                 android:text="@string/product_detail_taxable_title"
                 android:textSize="18sp"
-                android:padding="8dp"/>
+                android:layout_marginStart="8dp"/>
 
             <TextView
                 android:id="@+id/product_detail_taxable"
                 android:textSize="18sp"
                 android:gravity="end"
-                android:padding="8dp"
+                android:layout_marginEnd="8dp"
                 tools:text="True" />
         </TableRow>
     </TableLayout>

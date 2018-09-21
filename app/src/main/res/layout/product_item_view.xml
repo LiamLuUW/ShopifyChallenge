@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/product_title"
-        android:text="Inventory Quantity:"
+        android:text="@string/product_list_inventory_name"
         android:layout_toEndOf="@id/product_image"
         android:layout_marginStart="8dp"
         android:textSize="14sp"/>
